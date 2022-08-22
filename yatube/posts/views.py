@@ -163,7 +163,12 @@ def profile_follow(request, username):
     # Подписаться на автора
     template_name = 'posts:profile'
     author = get_object_or_404(User, username__contains=username)
-    Follow.objects.create(user=request.user, author=author)
+    count_follow = Follow.objects.filter(author=author, user=request.user).count()
+    print(count_follow)
+    if author.pk != request.user.pk and count_follow == 0:
+        print(username)
+        print(request.user)
+        Follow.objects.create(user=request.user, author=author)
     return redirect(template_name, author)
 
 

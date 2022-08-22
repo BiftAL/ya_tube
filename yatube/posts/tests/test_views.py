@@ -380,3 +380,4 @@ class PostPagesTests(TestCase):
         )
         follow_posts_count = len(response.context['page_obj'])
         self.assertIs(follow_posts_count, 1)
+

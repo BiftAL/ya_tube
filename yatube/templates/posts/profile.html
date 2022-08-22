@@ -11,6 +11,8 @@
     >
       Отписаться
     </a>
+  {% elif author.username == request.user.username %}
+      <p class="btn-lg btn-light">Это ВАШИ посты</p>
   {% else %}
     <a
       class="btn btn-lg btn-primary"
