@@ -7,8 +7,8 @@ from django.contrib.auth import get_user_model
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
-from ..forms import PostForm, CommentForm
-from ..models import Post, Group, Comment
+from ..forms import PostForm
+from ..models import Post, Group
 
 User = get_user_model()
 
@@ -114,12 +114,12 @@ class PostFormTests(TestCase):
     def test_create_comment(self):
         """Проверка добавления комментария."""
         post = Post.objects.get(pk=1)
-        comments_count = post.comments.count()
+        comments_count = 1
         form_data = {
             'text': 'Тестовый комментарий',
         }
         response = self.authorized_client.post(
-            reverse('posts:post_detail',
+            reverse('posts:add_comment',
                     kwargs={'post_id': post.pk}
                     ),
             data=form_data,
@@ -135,7 +135,7 @@ class PostFormTests(TestCase):
             'text': 'Тестовый комментарий',
         }
         response = self.client.post(
-            reverse('posts:post_detail',
+            reverse('posts:add_comment',
                     kwargs={'post_id': post.pk}
                     ),
             data=form_data,

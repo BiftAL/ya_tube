@@ -1,6 +1,5 @@
 import shutil
 import tempfile
-from time import sleep
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -339,7 +338,10 @@ class PostPagesTests(TestCase):
     def test_follow_author(self):
         """Подписка на автора доступна."""
         self.user = User.objects.create_user(username='other_auth')
-        response = self.authorized_client.get(reverse('posts:profile', kwargs={'username': self.user}))
+        response = self.authorized_client.get(reverse(
+            'posts:profile',
+            kwargs={'username': self.user})
+        )
         context = response.context['following']
         self.assertFalse(context)
 
@@ -350,7 +352,10 @@ class PostPagesTests(TestCase):
             user=PostPagesTests.user,
             author=self.user
         )
-        response = self.authorized_client.get(reverse('posts:profile', kwargs={'username': self.user}))
+        response = self.authorized_client.get(reverse(
+            'posts:profile',
+            kwargs={'username': self.user})
+        )
         context = response.context['following']
         self.assertTrue(context)
 
