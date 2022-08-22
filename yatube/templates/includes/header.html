@@ -1,0 +1,61 @@
+{% load static %}
+<header>
+  <nav class="navbar navbar-light navbar-expand-lg" style="background-color: lightskyblue">
+    <div class="container">
+      <a class="navbar-brand" href="{% url 'posts:index' %}">
+        <img src="{% static 'img/logo.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+        <span style="color:red">Ya</span>tube
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Переключатель навигации">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarText">
+        {% with request.resolver_match.view_name as view_name %}
+        <ul class="navbar-nav nav nav-pills">
+          <li class="nav-item">
+            <a class="nav-link {% if view_name  == 'about:author' %}active{% endif %}"
+              href="{% url 'about:author' %}">Об авторе
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if view_name  == 'about:tech' %}active{% endif %}"
+              href="{% url 'about:tech' %}">Технологии
+            </a>
+          </li>
+          {% if request.user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link {% if view_name  == 'posts:post_create' %}active{% endif %}"
+              href="{% url 'posts:post_create' %}">Новая запись
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link link-light {% if view_name  == 'users:password_change_form' %}active{% endif %}"
+              href="{% url 'users:password_change_form' %}">Изменить пароль
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link link-light {% if view_name  == 'users:logout' %}active{% endif %}"
+              href="{% url 'users:logout' %}">Выйти
+            </a>
+          </li>
+          <li class=" me-2">
+            Пользователь: {{ user.username }}
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link link-light {% if view_name  == 'users:login' %}active{% endif %}"
+              href="{% url 'users:login' %}">Войти
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link link-light {% if view_name  == 'users:signup' %}active{% endif %}"
+              href="{% url 'users:signup' %}">Регистрация
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+        {% endwith %}
+      </div>
+    </div>
+  </nav>
+</header>
