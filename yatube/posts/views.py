@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.decorators.cache import cache_page
+from django.core.cache import cache
 
 from .models import Post, Group, Follow, User
 from .forms import PostForm, CommentForm
@@ -10,7 +10,7 @@ POSTS_ON_PAGE = 10
 CACHING_TIME = 20
 
 
-@cache_page(CACHING_TIME, key_prefix='index_page')
+
 def index(request: any) -> render:
     """Главная страница учебного проекта."""
     template_name = 'posts/index.html'
@@ -162,6 +162,7 @@ def follow_index(request):
 def profile_follow(request, username):
     # Подписаться на автора
     template_name = 'posts:profile'
+    cache.clear()
     author = get_object_or_404(User, username__contains=username)
     count_follow = Follow.objects.filter(
         author=author,
@@ -178,6 +179,7 @@ def profile_follow(request, username):
 @login_required
 def profile_unfollow(request, username):
     # Дизлайк, отписка
+    cache.clear()
     template_name = 'posts:profile'
     author = get_object_or_404(User, username__contains=username)
     unfollow = Follow.objects.filter(user=request.user, author=author)

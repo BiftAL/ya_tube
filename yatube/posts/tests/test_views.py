@@ -325,9 +325,10 @@ class PostPagesTests(TestCase):
         self.assertIn(self.post, context)
         self.post.delete()
 
-        # после удаления поста, response в кэше и повторно не возвращается
+        # после удаления поста, проверяем что он остался в кэше
         response = self.client.get(reverse('posts:index'))
-        self.assertTrue(response.context is None)
+        context = response.context['page_obj'].object_list
+        self.assertEqual(self.post.text, str(context[0]))
         cache.clear()
 
         # после очистки кэша, response возвращает новый результат
@@ -366,7 +367,7 @@ class PostPagesTests(TestCase):
             user=self.user,
             author=PostPagesTests.user
         )
-        # Пост у посетителя, не подписанного на автора не выводиться.
+        # Пост у посетителя, не подписанного на автора, не выводиться.
         response = self.authorized_client.get(
             reverse('posts:follow_index')
         )
