@@ -10,7 +10,6 @@ POSTS_ON_PAGE = 10
 CACHING_TIME = 20
 
 
-
 def index(request: any) -> render:
     """Главная страница учебного проекта."""
     template_name = 'posts/index.html'
