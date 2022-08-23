@@ -168,10 +168,7 @@ def profile_follow(request, username):
         author=author,
         user=request.user
     ).count()
-    print(count_follow)
     if author.pk != request.user.pk and count_follow == 0:
-        print(username)
-        print(request.user)
         Follow.objects.create(user=request.user, author=author)
     return redirect(template_name, author)
 
