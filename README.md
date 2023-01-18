@@ -48,7 +48,7 @@ cd yatube/
 Переименовать и отредактировать в корне проекта файл env.example в .env
 ```
 mv yatube/env.example yatube/.env
-nano .env
+nano yatube/.env
 ```
 
 Выполнить миграции:
